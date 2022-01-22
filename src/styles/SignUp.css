@@ -1,0 +1,15 @@
+.sign-in-container {
+  min-width: 420px;
+  height: auto;
+  background-color: rgba(0,0,0,0.75);
+  padding: 60px 68px 40px;
+  border-radius: 8px;
+  margin-bottom: 100px;
+  transition: 500ms;
+}
+.login-containers {
+  height: auto;
+  width: 100vw;
+  overflow: hidden;
+  background-image: url('../images//netflix-background.jpg');
+}

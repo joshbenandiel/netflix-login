@@ -1,0 +1,72 @@
+.main-container {
+  height: auto;
+  overflow: hidden;
+  background-image: url('../images/netflix-background.jpg');
+}
+
+
+.image-header {
+  width: 100%;
+  background-color: black;
+  min-height: 300px;
+  margin-top: 100px;
+  border-top: 10px solid #222222;
+  border-bottom: 10px solid #222222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-header h1 {
+  font-size: 70px;
+}
+
+.logged-in-card {
+  background-color: rgba(0,0,0,0.59);
+  min-height: 600px;
+  min-width: 500px;
+  margin: 10px;
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+}
+
+.user-picture {
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.user-card {
+  background-color: rgba(0,0,0,0.65);
+  border-radius: 12px;
+  padding: 10px;
+  width: 100%;
+  color: #fff;
+  transition: 500ms;
+  overflow: hidden;
+}
+.user-card:hover {
+  background-color: #fff;
+  color: black;
+  transform: translate(30px, -15px) scale(1.1);
+  cursor: pointer;
+}
+
+.user-id {
+ position: relative;
+}
+.user-id p {
+  position: absolute;
+  margin-left: 150px;
+  transition: 500ms;
+  color: #00A8FA;
+}
+
+.user-id p span {
+  color: #CBE4EE;
+}
+
+.user-card:hover .user-id p {
+  margin-left: 50px;
+  margin-top: 10px;
+}
