@@ -5,67 +5,6 @@ import axios from 'axios'
 import NetflixLogo from './NetflixLogo'
 
 
- 
-const details = [
-  {
-    id: 'first-name',
-    label: 'First Name',
-    type: 'text',
-    placeholder: 'Enter First Name',
-    name: 'first_name',
-    text: 'text'
-    
-  },
-  {
-    id: 'middle-name',
-    label: 'Middle Name',
-    type: 'text',
-    placeholder: 'Enter Middle Name',
-    name: 'middle_name',
-    text: 'text'
-  },
-  {
-    id: 'last-name',
-    label: 'Last Name',
-    type: 'text',
-    placeholder: 'Enter Last Name',
-    name: 'last_name',
-    text: 'text'
-  },
-  {
-    id: 'email-address',
-    label: 'Email Address',
-    type: 'email',
-    placeholder: 'Enter Email Address',
-    name: 'email',
-    text: 'email'
-  },
-  {
-    id: 'password',
-    label: 'Password',
-    type: 'password',
-    placeholder: 'Enter Password',
-    name: 'password',
-    text: 'password'
-  },
-  {
-    id: 'confirm-password',
-    label: 'Confirm Password',
-    type: 'password',
-    placeholder: 'Enter Password',
-    name: 'confirm-password',
-    text: 'password'
-  },
-  {
-    id: 'contact-number',
-    label: 'Contact Number',
-    type: 'text',
-    placeholder: 'Enter Contact Number',
-    name: 'contact_number',
-    text: 'text'
-  },
- 
-]
 
 const Signup = ({contacts}) => {
 
@@ -78,34 +17,73 @@ const Signup = ({contacts}) => {
     contact_number: '',
   })
 
-  console.log(formData)
 
+  const [formErrors, setFormErrors] = useState({})
 
+  console.log(formErrors)
 
-  const [fileImage, setFileImage] = useState('')
-  
+  const [isSubmit, setIsSubmit] = useState(false)
+
 
 
   const handleSubmit = async(e) => {
     e.preventDefault()
-    try {
-      const path = 'http://localhost:8080/api/contacts/create'   
-      const result = await axios.post(path, formData)
-      if(result.data.status === 'success'){
-        setFormData({
-          first_name: '',
-          middle_name: '',
-          last_name: '',
-          email: '',
-          password: '',
-          contact_number: '',
-        })
+    setFormErrors(validate(formData))
+    setIsSubmit(true)
+    if(Object.keys(formErrors).length === 0 && isSubmit){
+      try {
+        const path = 'http://localhost:8080/api/contacts/create'  
+        const result = await axios.post(path, formData)
+        if(result.data.status === 'success'){
+          setFormData({
+            first_name: '',
+            middle_name: '',
+            last_name: '',
+            email: '',
+            password: '',
+            contact_number: '',
+          })
+        }  
+        
+       
+      } catch(err){
+        console.log(err)
       }
-      
-    } catch(err){
-      console.log(err)
     }
   }
+
+  const validate = (values) => {
+    const errors = {}
+    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(!values.first_name){
+      errors.first_name = '*First Name is Required'
+    } 
+    if(!values.middle_name){
+      errors.middle_name = '*Middle Name is Required'
+    } 
+    if(!values.last_name){
+      errors.last_name = '*Last Name is Required'
+    } 
+    if(!values.email){
+      errors.email = '*Email is Required'
+    } else if (!values.email.match(mailFormat)){
+      errors.email = '*Not Valid Email Address'
+    }
+    if(!values.password){
+      errors.password = '*Password is Required'
+    } else if (values.password.length < 4){
+      errors.password = '*Password must have 4 characters'
+    }
+    if(!values.contact_number){
+      errors.contact_number = '*Contact Number is Required'
+    } else if (values.contact_number.length < 11) {
+      errors.contact_number = '*Invalid Contact Number'
+    }
+    return errors;
+  }
+
+ 
+
   
   const handleChange = (e) => {
       const {value, name} = e.target
@@ -134,6 +112,7 @@ const Signup = ({contacts}) => {
     getImagePath(e)
   }
 
+
   return (
     <div className='login-containers position-relative'>
       <NetflixLogo/>
@@ -142,16 +121,26 @@ const Signup = ({contacts}) => {
           <h1>Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className='details-wrapper'>
-              {details.map((detail, index) => {
-                return (
-                <div
-                key={detail.id} 
-                className="form-group mt-3">
-                  <label className='mb-1'>{detail.label}</label>
-                  <input onChange={handleChange} value={formData[detail.name]} name={detail.name}type={detail.text} className="form-control" id={detail.id} placeholder={detail.placeholder}/>
-                </div>
-                )
-              })}
+              <div className="form-group mt-3">
+                <label className='mb-1'>First Name</label>
+                <input onChange={handleChange} value={formData.first_name} name='first_name'type='text' className="form-control" placeholder='First Name'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.first_name}</p>
+                <label className='mb-1'>Middle Name</label>
+                <input onChange={handleChange} value={formData.middle_name} name='middle_name'type='text' className="form-control" placeholder='Middle Name'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.middle_name}</p>
+                <label className='mb-1'>Last Name</label>
+                <input onChange={handleChange} value={formData.last_name} name='last_name'type='text' className="form-control" placeholder='Last Name'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.last_name}</p>
+                <label className='mb-1'>Email</label>
+                <input onChange={handleChange} value={formData.email} name='email'type='text' className="form-control" placeholder='Email'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.email}</p>
+                <label className='mb-1'>Password</label>
+                <input onChange={handleChange} value={formData.password} name='password'type='password' className="form-control" placeholder='Password'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
+                <label className='mb-1'>Contact Number</label>
+                <input onChange={handleChange} value={formData.contact_number} name='contact_number'type='text' className="form-control" placeholder='Contact Number'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.contact_number}</p>
+              </div>
               <div className='d-flex flex-column'>
                 <label className='mt-3 mb-1'>Profile Picture</label>
                 <input onChange={handleFileImage} type="file" name='file'/>
@@ -159,7 +148,6 @@ const Signup = ({contacts}) => {
               <button type='submit' className='btn btn-danger w-100 mt-5'>Submit</button>  
             </div>  
           </form>
-          <button onClick={getImagePath}>Get Path</button>
         </div>
       </div>
     </div>
