@@ -4,6 +4,7 @@
   background-color: rgba(0,0,0,0.75);
   padding: 60px 68px 40px;
   border-radius: 8px;
+  position: relative;
 }
 .login-container {
   height: 100vh;

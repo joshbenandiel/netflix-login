@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import '../styles/SignUp.css'
-import background from '../images/netflix-background.jpg'
 import axios from 'axios'
 import NetflixLogo from './NetflixLogo'
+import { useNavigate } from 'react-router-dom'
+import CircularProgress from '@mui/material/CircularProgress';
+import LinearProgress from '@mui/material/LinearProgress';
 
 
 
-const Signup = ({contacts}) => {
+const Signup = () => {
 
   const [formData, setFormData] = useState({
+    _id: '',
     first_name: '',
     middle_name: '',
     last_name: '',
@@ -17,13 +20,23 @@ const Signup = ({contacts}) => {
     contact_number: '',
   })
 
+  const navigate = useNavigate()
 
   const [formErrors, setFormErrors] = useState({})
 
-  console.log(formErrors)
-
   const [isSubmit, setIsSubmit] = useState(false)
 
+  const [isExists, setIsExists] = useState('')
+
+  const [isRegistered, setIsRegistered] = useState(false)
+
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [image, setImage] = useState('')
+
+  console.log(image)
+
+  
 
 
   const handleSubmit = async(e) => {
@@ -31,10 +44,14 @@ const Signup = ({contacts}) => {
     setFormErrors(validate(formData))
     setIsSubmit(true)
     if(Object.keys(formErrors).length === 0 && isSubmit){
+      setIsLoading(true)
       try {
         const path = 'http://localhost:8080/api/contacts/create'  
         const result = await axios.post(path, formData)
         if(result.data.status === 'success'){
+          setIsExists('')
+          setIsRegistered(true)
+          setIsLoading(false)
           setFormData({
             first_name: '',
             middle_name: '',
@@ -43,14 +60,15 @@ const Signup = ({contacts}) => {
             password: '',
             contact_number: '',
           })
-        }  
-        
-       
-      } catch(err){
-        console.log(err)
+        } 
+      } catch(error){
+        console.log(error)
+        setIsExists(error.response.data.msg)
+        setIsLoading(false)
       }
     }
   }
+
 
   const validate = (values) => {
     const errors = {}
@@ -94,6 +112,9 @@ const Signup = ({contacts}) => {
   }
 
   const getImagePath = async(e) => {
+    let file = e.target.files[0]
+    setImage(URL.createObjectURL(file))
+
     try {
       const path = 'http://localhost:8080/api/file/upload'
       const data = new FormData()
@@ -118,6 +139,7 @@ const Signup = ({contacts}) => {
       <NetflixLogo/>
       <div className='w-100 d-flex justify-content-center align-items-center h-100'>
         <div className='sign-in-container text-white'>
+          {isLoading &&<LinearProgress className='mb-2'/>}
           <h1>Sign Up</h1>
           <form onSubmit={handleSubmit}>
             <div className='details-wrapper'>
@@ -134,6 +156,7 @@ const Signup = ({contacts}) => {
                 <label className='mb-1'>Email</label>
                 <input onChange={handleChange} value={formData.email} name='email'type='text' className="form-control" placeholder='Email'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.email}</p>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{isExists}</p>
                 <label className='mb-1'>Password</label>
                 <input onChange={handleChange} value={formData.password} name='password'type='password' className="form-control" placeholder='Password'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
@@ -143,13 +166,25 @@ const Signup = ({contacts}) => {
               </div>
               <div className='d-flex flex-column'>
                 <label className='mt-3 mb-1'>Profile Picture</label>
+                {image && <img className='profile-sign-up-image'src={image} alt="profile" />}
                 <input onChange={handleFileImage} type="file" name='file'/>
               </div>
-              <button type='submit' className='btn btn-danger w-100 mt-5'>Submit</button>  
+              <button type='submit' className='btn btn-danger w-100 mt-5'>
+                {isLoading ? <CircularProgress color="inherit" size='1em'/> : 'Submit'}
+              </button>  
             </div>  
           </form>
         </div>
       </div>
+      {isRegistered && 
+      <div>
+        <div className='signup-card-container'/>
+        <div className='signup-card'>
+          <h1 className='pb-3 text-center'>Successfully Registered!</h1>
+          <button onClick={() => {navigate('/')}}className='btn btn-success'>Login</button>
+        </div>
+      </div>
+      }
     </div>
   )
 }

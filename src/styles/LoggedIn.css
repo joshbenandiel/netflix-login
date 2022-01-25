@@ -1,9 +1,61 @@
-.main-container {
+.main-container{
   height: auto;
   overflow: hidden;
   background-image: url('../images/netflix-background.jpg');
+  position: relative;
+}
+.delete-container  {
+ position: absolute;
+ z-index: 998;
+ background-color: #212121;
+ top: 0;
+ left: 0;
+ height: 100%;
+ width: 100%;
+ opacity: 0.6;
+
 }
 
+.delete-account-popup {
+  height: auto;
+  background-color: #fff;
+  width: 40%;
+  border-radius: 7px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -170%);
+  z-index: 1100;
+}
+
+.delete-is-success {
+  height: auto;
+  background-color: #fff;
+  width: auto;
+  border-radius: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -170%);
+  z-index: 1100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+}
+
+.button-container-delete button {
+  width: 100px;
+  margin: 10px;
+}
+.button-x {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  
+}
 
 .image-header {
   width: 100%;
@@ -34,6 +86,44 @@
 .user-picture {
   background-color: #fff;
   border-radius: 20px;
+  height: 80px;
+  width: 80px;
+  object-fit: contain;
+  margin-right: 30px;
+}
+
+.user-picture-profile {
+  background-color: #fff;
+  border-radius: 12px;
+  height: 40px;
+  
+}
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #fff;
+  transition: 400ms;
+}
+
+.profile-container:hover .arrow-up{
+  transform: rotate(180deg);
+}
+
+
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+  width: 60px;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.profile-container {
+  position: absolute;
+  top: 10px;
+  right: 60px;
+  
 }
 
 .user-card {
@@ -69,4 +159,40 @@
 .user-card:hover .user-id p {
   margin-left: 50px;
   margin-top: 10px;
+}
+
+.profile-drop-down-menu {
+  height: auto;
+  width:150px;
+  background-color: rgba(0,0,0,0.91);
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 5px;
+  position: absolute;
+  top: 30px;
+  right: 0px;
+
+}
+
+.profile-drop-down-menu button {
+  border: none;
+  background-color: transparent;
+}
+
+.profile-drop-down-menu p {
+  margin: 0;
+  padding: 10px 0px;
+  color: #fff;
+}
+
+.profile-drop-down-menu button:nth-child(1) {
+  border-bottom: 2px solid gray;
+}
+
+.profile-drop-down-menu p:hover {
+  text-decoration: underline;
 }
