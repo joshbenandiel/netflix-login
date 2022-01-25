@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 
 
-const Login = ({setUser}) => {
+const Login = ({setUser, setUpdateIsClick}) => {
 
 
   const axios = require('axios').default;
@@ -85,7 +85,7 @@ const Login = ({setUser}) => {
                 {isLoading ? <CircularProgress color="inherit" size='1em'/> : 'Sign in' }      
             </button>          
           </form>
-          <Link to='/signup'>
+          <Link onClick={() => setUpdateIsClick(false)} to='/signup'>
             <button type='button' className='mt-5 btn btn-outline-danger'>Sign Up Now</button>
           </Link>
         </div>

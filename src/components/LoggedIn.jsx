@@ -4,6 +4,7 @@ import kidsImage from '../images/kids.png'
 import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress';
+import Signup from './Signup'
 
 
 
@@ -11,7 +12,7 @@ import LinearProgress from '@mui/material/LinearProgress';
   
   
 
-const LoggedIn = ({user}) => {
+const LoggedIn = ({user, updateStatus, setUpdate}) => {
 
   const [deleteIsClick, setDeleteIsCLick] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
@@ -67,7 +68,7 @@ const LoggedIn = ({user}) => {
           <div className="arrow-up"></div>
         </div>
         <div className='profile-drop-down-menu'>
-          <button>
+          <button onClick={() => setUpdate(true)}>
             <p>Update Account</p>
           </button>
           <button onClick={() => setDeleteIsCLick(true)}>
@@ -80,12 +81,15 @@ const LoggedIn = ({user}) => {
         <img className='pe-5' src={kidsImage} alt='kids-picture' />
         <h1 className='text-white ps-5'>Hi, {user.first_name} {user.last_name}!</h1>
       </div>
-      <div className='d-flex w-100 justify-content-center mt-5'>
-        <div className='logged-in-card'>
+      <div className='d-flex'>
+      <div className='d-flex w-100 justify-content-center mt-5 position-relative account-container'>
+        <div className={updateStatus ? 'logged-in-card-update-active': 'logged-in-card'}>
           <h3 className='text-white'>Registered Accounts</h3>
           {contacts.map((user, index) => {
             return (
-              <div className="user-card mt-2">
+              <div
+              key={index} 
+              className="user-card mt-2">
                 <div className="d-flex">
                   <div className="me-3">
                     <img className='user-picture' src={`http://localhost:8080${user.avatar}`} alt='user-picture' />
@@ -101,6 +105,12 @@ const LoggedIn = ({user}) => {
               </div>
             )
           })}
+          </div>
+          <div className={updateStatus ? 'update-user-active' : 'update-user'}>
+            <Signup
+            setUpdate={setUpdate}
+            updateStatus={updateStatus}
+            />
           </div>
         </div>
         {deleteIsClick && 
@@ -133,6 +143,8 @@ const LoggedIn = ({user}) => {
           </div>
         )
         }
+          
+        </div>
        </div>
   )
 }

@@ -11,23 +11,30 @@ import {
 
 } from "react-router-dom";
 
-function App() {
+function App(props) {
 
   const [user, setUser] = useState({})
+
+  const [updateIsClick, setUpdateIsClick] = useState(false)
+
+  console.log(updateIsClick)
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login
+          setUpdateIsClick={setUpdateIsClick}
           setUser={setUser}
           />}/>
           <Route path='/signup' element={<Signup
+          setUpdate={setUpdateIsClick}
+          updateStatus={updateIsClick}
           />}/>
           <Route path='/user' element={<LoggedIn
+          setUpdate={setUpdateIsClick}
+          updateStatus={updateIsClick}
           user={user}        
-          />}/>
-           <Route path='/update' element={<Update       
           />}/>
         </Routes>
       </BrowserRouter>

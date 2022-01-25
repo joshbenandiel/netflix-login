@@ -24,7 +24,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -170%);
+  transform: translate(-50%, -300%);
   z-index: 1100;
 }
 
@@ -75,12 +75,29 @@
 
 .logged-in-card {
   background-color: rgba(0,0,0,0.59);
-  min-height: 600px;
+  height: auto;
   min-width: 500px;
   margin: 10px;
   border-radius: 12px;
   padding: 20px;
   backdrop-filter: blur(3px);
+  position: absolute;
+  z-index: 1000;
+  transition: 300ms;
+}
+
+.logged-in-card-update-active {
+  background-color: rgba(0,0,0,0.59);
+  height: auto;
+  min-width: 500px;
+  margin: 10px;
+  border-radius: 12px;
+  padding: 20px;
+  backdrop-filter: blur(3px);
+  transform: translateX(-300px);
+  position: absolute;
+  z-index: 1000;
+  transition: 1000ms;
 }
 
 .user-name-login {
@@ -182,8 +199,14 @@
   position: absolute;
   top: 60px;
   right: 0px;
-
+  opacity: 0;
+  transition-duration: 150ms;
 }
+
+.profile-container:hover .profile-drop-down-menu {
+  opacity: 1;
+}
+
 
 .profile-drop-down-menu button:nth-child(1) {
   border: none;
@@ -211,4 +234,23 @@
 
 .profile-drop-down-menu p:hover {
   text-decoration: underline;
+}
+.update-user {
+  position: absolute;
+  opacity: 0;
+  top: 0px;
+  left: 20em;
+  transform: translateX(30px);
+}
+.update-user-active {
+  position: absolute;
+  opacity: 1;
+  top: 0px;
+  left: 20em;
+  transform: translateX(30px);
+  transition: 1000ms;
+}
+
+.account-container {
+  height: 60em;
 }

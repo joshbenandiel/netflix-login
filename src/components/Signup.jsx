@@ -8,8 +8,10 @@ import LinearProgress from '@mui/material/LinearProgress';
 
 
 
-const Signup = () => {
+const Signup = ({updateStatus, setUpdate}) => {
 
+
+  console.log(updateStatus)
   const [formData, setFormData] = useState({
     _id: '',
     first_name: '',
@@ -139,13 +141,15 @@ const Signup = () => {
   }
 
 
+
   return (
-    <div className='login-containers position-relative'>
-      <NetflixLogo/>
-      <div className='w-100 d-flex justify-content-center align-items-center h-100'>
+    <div className={updateStatus ? 'login-containers-update-active' : 'login-containers'}>
+      {updateStatus ? null : <NetflixLogo/>}
+      <div className='w-100 d-flex justify-content-center align-items-center'>
         <div className='sign-in-container text-white'>
           {isLoading &&<LinearProgress className='mb-2'/>}
-          <h1>Sign Up</h1>
+          <i onClick={() => setUpdate(false)}className="fas fa-times fa-2x button-x"></i>
+          <h1>{updateStatus ? 'Update Account' : 'Sign Up'}</h1>
           <form onSubmit={handleSubmit}>
             <div className='details-wrapper'>
               <div className="form-group mt-3">
