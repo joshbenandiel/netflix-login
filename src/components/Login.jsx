@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../styles/Login.css'
 import  { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
@@ -35,12 +35,16 @@ const Login = ({setUser}) => {
   }
 
   const handleResult = (result) => {
-    setUser(result.data.result.user) 
+    setUser(result.data.result.user)
     setErrorMsg('')
     navigate('/user')
     setIsLoading(false)
   }
 
+
+  useEffect(() => {
+    return () => {};
+  }, []);
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -82,7 +86,7 @@ const Login = ({setUser}) => {
             </button>          
           </form>
           <Link to='/signup'>
-            <button type='button' className='mt-5'>Sign Up Now</button>
+            <button type='button' className='mt-5 btn btn-outline-danger'>Sign Up Now</button>
           </Link>
         </div>
       </div>

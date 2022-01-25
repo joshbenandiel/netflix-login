@@ -83,27 +83,33 @@
   backdrop-filter: blur(3px);
 }
 
+.user-name-login {
+  width: 240px;
+}
+
 .user-picture {
   background-color: #fff;
   border-radius: 20px;
   height: 80px;
   width: 80px;
   object-fit: contain;
-  margin-right: 30px;
 }
 
 .user-picture-profile {
   background-color: #fff;
   border-radius: 12px;
-  height: 40px;
+  height: 70px;
+  box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
+-webkit-box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
+-moz-box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
   
 }
 .arrow-up {
   width: 0; 
   height: 0; 
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 6px solid #fff;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 9px solid #fff;
   transition: 400ms;
 }
 
@@ -115,14 +121,14 @@
 .profile-wrapper {
   display: flex;
   align-items: center;
-  width: 60px;
+  width: 100px;
   justify-content: space-between;
   cursor: pointer;
 }
 .profile-container {
   position: absolute;
   top: 10px;
-  right: 60px;
+  right: 90px;
   
 }
 
@@ -138,7 +144,7 @@
 .user-card:hover {
   background-color: #fff;
   color: black;
-  transform: translate(30px, -15px) scale(1.1);
+  transform: translate(40px, -15px) scale(1.1);
   cursor: pointer;
 }
 
@@ -157,15 +163,16 @@
 }
 
 .user-card:hover .user-id p {
-  margin-left: 50px;
+  margin-left: 35px;
   margin-top: 10px;
 }
 
 .profile-drop-down-menu {
   height: auto;
   width:150px;
-  background-color: rgba(0,0,0,0.91);
+  background-color: rgba(0,0,0,0.71);
   margin-top: 20px;
+  border: 1px solid #fff;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -173,15 +180,21 @@
   padding: 10px;
   border-radius: 5px;
   position: absolute;
-  top: 30px;
+  top: 60px;
   right: 0px;
 
 }
 
-.profile-drop-down-menu button {
+.profile-drop-down-menu button:nth-child(1) {
   border: none;
   background-color: transparent;
 }
+
+.profile-drop-down-menu button:nth-child(2) {
+  border: none;
+  background-color: transparent;
+}
+
 
 .profile-drop-down-menu p {
   margin: 0;
@@ -190,6 +203,9 @@
 }
 
 .profile-drop-down-menu button:nth-child(1) {
+  border-bottom: 2px solid gray;
+}
+.profile-drop-down-menu button:nth-child(2) {
   border-bottom: 2px solid gray;
 }
 

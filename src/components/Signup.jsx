@@ -18,23 +18,18 @@ const Signup = () => {
     email: '',
     password: '',
     contact_number: '',
+    avatar: ''
   })
 
   const navigate = useNavigate()
 
   const [formErrors, setFormErrors] = useState({})
-
   const [isSubmit, setIsSubmit] = useState(false)
-
   const [isExists, setIsExists] = useState('')
-
   const [isRegistered, setIsRegistered] = useState(false)
-
   const [isLoading, setIsLoading] = useState(false)
-
   const [image, setImage] = useState('')
-
-  console.log(image)
+  const [confirmPass, setConfirmPass] = useState('')
 
   
 
@@ -59,6 +54,7 @@ const Signup = () => {
             email: '',
             password: '',
             contact_number: '',
+            avatar: ''
           })
         } 
       } catch(error){
@@ -91,11 +87,16 @@ const Signup = () => {
       errors.password = '*Password is Required'
     } else if (values.password.length < 4){
       errors.password = '*Password must have 4 characters'
+    } else if(values.password !== confirmPass) {
+      errors.password = '*Password does not match'
     }
     if(!values.contact_number){
       errors.contact_number = '*Contact Number is Required'
     } else if (values.contact_number.length < 11) {
       errors.contact_number = '*Invalid Contact Number'
+    } 
+    if(!values.avatar) {
+      errors.avatar = "*Choose a Picture"
     }
     return errors;
   }
@@ -109,6 +110,10 @@ const Signup = () => {
         ...formData,
         [name]: value
       })
+  }
+
+  const handleConfirmPass = (e) => {
+    setConfirmPass(e.target.value)
   }
 
   const getImagePath = async(e) => {
@@ -160,6 +165,9 @@ const Signup = () => {
                 <label className='mb-1'>Password</label>
                 <input onChange={handleChange} value={formData.password} name='password'type='password' className="form-control" placeholder='Password'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
+                <label className='mb-1'>Confirm Password</label>
+                <input onChange={handleConfirmPass} value={confirmPass} type='password' className="form-control" placeholder='Confirm Password'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
                 <label className='mb-1'>Contact Number</label>
                 <input onChange={handleChange} value={formData.contact_number} name='contact_number'type='text' className="form-control" placeholder='Contact Number'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.contact_number}</p>
@@ -168,6 +176,7 @@ const Signup = () => {
                 <label className='mt-3 mb-1'>Profile Picture</label>
                 {image && <img className='profile-sign-up-image'src={image} alt="profile" />}
                 <input onChange={handleFileImage} type="file" name='file'/>
+                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.avatar}</p>
               </div>
               <button type='submit' className='btn btn-danger w-100 mt-5'>
                 {isLoading ? <CircularProgress color="inherit" size='1em'/> : 'Submit'}

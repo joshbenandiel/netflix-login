@@ -39,18 +39,21 @@ const LoggedIn = ({user}) => {
   }
 
   const getContactsData = async() => {
+    console.log('josh')
     try {
       const path = 'http://localhost:8080/api/contacts/list'
       const result = await axios.get(path)
-      if(result.data.status === 'success'){
-        console.log(result.data.contacts)
+      if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
-        console.log(result.data.contacts)
       }
     } catch(err){
       console.log(err)
     }
   }
+
+  useEffect(() => {
+    getContactsData()
+  },[])
 
   
 
@@ -70,29 +73,34 @@ const LoggedIn = ({user}) => {
           <button onClick={() => setDeleteIsCLick(true)}>
             <p>Delete Account</p>
           </button>
+          <button className='btn btn-outline-info text-white m-2'>Logout</button>
         </div>
       </div>
       <div className="image-header">
         <img className='pe-5' src={kidsImage} alt='kids-picture' />
-        <h1 className='text-white ps-5'>Hi!, {user.first_name} {user.last_name}!</h1>
+        <h1 className='text-white ps-5'>Hi, {user.first_name} {user.last_name}!</h1>
       </div>
       <div className='d-flex w-100 justify-content-center mt-5'>
         <div className='logged-in-card'>
           <h3 className='text-white'>Registered Accounts</h3>
-            <div className="user-card mt-4">
-              <div className="d-flex">
-                <div className="me-3">
-                  <img className='user-picture' src={`http://localhost:8080${user.avatar}`} alt='user-picture' />
-                </div>
-                <div className="d-flex align-items-center justify-content-center flex-column">
-                  <p className='m-0 fs-5'>{user.first_name} {user.middle_name} {user.last_name}</p>
-                  <p className='m-0'>{user.email}</p>      
-                </div>
-                <div className='user-id'>
-                  <p className='fs-1'><span>#</span>1</p>
+          {contacts.map((user, index) => {
+            return (
+              <div className="user-card mt-2">
+                <div className="d-flex">
+                  <div className="me-3">
+                    <img className='user-picture' src={`http://localhost:8080${user.avatar}`} alt='user-picture' />
+                  </div>
+                  <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
+                    <p className='m-0 fs-5'>{user.first_name} {user.middle_name} {user.last_name}</p>
+                    <p className='m-0'>{user.email}</p>      
+                  </div>
+                  <div className='user-id'>
+                    <p className='fs-1'><span>#</span>{index + 1}</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )
+          })}
           </div>
         </div>
         {deleteIsClick && 
