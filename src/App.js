@@ -17,24 +17,36 @@ function App(props) {
 
   const [updateIsClick, setUpdateIsClick] = useState(false)
 
-  console.log(updateIsClick)
+  const [changeIsClick, setChangeIsClick] = useState(false)
+
+  const [isUpdated, setIsUpdated] = useState(false)
+
 
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path='/' element={<Login
-          setUpdateIsClick={setUpdateIsClick}
-          setUser={setUser}
+            setIsUpdated={setIsUpdated}
+            setChangeIsClick={setChangeIsClick}
+            setUpdateIsClick={setUpdateIsClick}
+            setUser={setUser}
           />}/>
           <Route path='/signup' element={<Signup
-          setUpdate={setUpdateIsClick}
-          updateStatus={updateIsClick}
-          />}/>
+            setIsUpdated={setIsUpdated}
+            setChangeIsClick={setChangeIsClick}
+            changeIsClick={changeIsClick}
+            setUpdate={setUpdateIsClick}
+            updateStatus={updateIsClick}
+            />}/>
           <Route path='/user' element={<LoggedIn
-          setUpdate={setUpdateIsClick}
-          updateStatus={updateIsClick}
-          user={user}        
+            setIsUpdated={setIsUpdated}
+            isUpdated={isUpdated}
+            setChangeIsClick={setChangeIsClick}
+            changeIsClick={changeIsClick}
+            setUpdate={setUpdateIsClick}
+            updateStatus={updateIsClick}
+            user={user}        
           />}/>
         </Routes>
       </BrowserRouter>

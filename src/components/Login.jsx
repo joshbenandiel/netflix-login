@@ -7,7 +7,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 
 
-const Login = ({setUser, setUpdateIsClick}) => {
+const Login = ({
+  setUser, 
+  setUpdateIsClick, 
+  setChangeIsClick,
+  setIsUpdated
+}) => {
 
 
   const axios = require('axios').default;
@@ -81,11 +86,17 @@ const Login = ({setUser, setUpdateIsClick}) => {
               <input onChange={handleChange} value={formValues.password} name='password' type="password" className="form-control" id="password" placeholder="Password"/>
             </div>
             <p className='m-1' style={{color: 'red'}}>{errorMsg}</p>
-            <button className='btn btn-submit text-white btn-danger w-100 mt-5' type='submit'>     
+            <button onClick={() => {
+              setUpdateIsClick(false)
+              setIsUpdated(false)
+            }}className='btn btn-submit text-white btn-danger w-100 mt-5' type='submit'>     
                 {isLoading ? <CircularProgress color="inherit" size='1em'/> : 'Sign in' }      
             </button>          
           </form>
-          <Link onClick={() => setUpdateIsClick(false)} to='/signup'>
+          <Link onClick={() => {
+            setUpdateIsClick(false)
+            setChangeIsClick(false)
+            }} to='/signup'>
             <button type='button' className='mt-5 btn btn-outline-danger'>Sign Up Now</button>
           </Link>
         </div>

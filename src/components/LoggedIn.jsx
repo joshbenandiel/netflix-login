@@ -1,10 +1,11 @@
-import React , { useState, useEffect }from 'react'
+import React , { useState, useEffect, useRef }from 'react'
 import '../styles/LoggedIn.css'
 import kidsImage from '../images/kids.png'
 import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress';
 import Signup from './Signup'
+import { Link } from 'react-scroll'
 
 
 
@@ -12,14 +13,21 @@ import Signup from './Signup'
   
   
 
-const LoggedIn = ({user, updateStatus, setUpdate}) => {
+const LoggedIn = ({
+  user, 
+  updateStatus, 
+  setUpdate, 
+  setChangeIsClick, 
+  changeIsClick,
+  setIsUpdated,
+  isUpdated
+}) => {
 
   const [deleteIsClick, setDeleteIsCLick] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [contacts, setContacts] = useState([])
-  console.log(contacts)
-
+  
   const axios = require('axios').default;
 
   const navigate = useNavigate()
@@ -40,7 +48,6 @@ const LoggedIn = ({user, updateStatus, setUpdate}) => {
   }
 
   const getContactsData = async() => {
-    console.log('josh')
     try {
       const path = 'http://localhost:8080/api/contacts/list'
       const result = await axios.get(path)
@@ -56,7 +63,7 @@ const LoggedIn = ({user, updateStatus, setUpdate}) => {
     getContactsData()
   },[])
 
-  
+  console.log(user.avatar)
 
   
   return (
@@ -68,9 +75,10 @@ const LoggedIn = ({user, updateStatus, setUpdate}) => {
           <div className="arrow-up"></div>
         </div>
         <div className='profile-drop-down-menu'>
-          <button onClick={() => setUpdate(true)}>
-            <p>Update Account</p>
-          </button>
+          <button onClick ={() =>{
+            setUpdate(true)
+            setChangeIsClick(true)
+          }}><p>Update Account</p></button>
           <button onClick={() => setDeleteIsCLick(true)}>
             <p>Delete Account</p>
           </button>
@@ -106,8 +114,12 @@ const LoggedIn = ({user, updateStatus, setUpdate}) => {
             )
           })}
           </div>
-          <div className={updateStatus ? 'update-user-active' : 'update-user'}>
+          <div id="account" className={updateStatus ? 'update-user-active' : 'update-user'}>
             <Signup
+            setIsUpdated={setIsUpdated}
+            changeIsClick={changeIsClick}
+            setChangeIsClick={setChangeIsClick}
+            selectedUser={user}
             setUpdate={setUpdate}
             updateStatus={updateStatus}
             />
@@ -145,7 +157,17 @@ const LoggedIn = ({user, updateStatus, setUpdate}) => {
         }
           
         </div>
+        {isUpdated && 
+          <div>
+            <div className='signup-card-container'/>
+            <div className='signup-card'>
+              <h1 className='pb-3 text-center'>Successfully Updated!</h1>
+              <button onClick={() => {navigate('/')}}className='btn btn-success'>Login Again</button>
+            </div>
+          </div>
+        }
        </div>
+       
   )
 }
 

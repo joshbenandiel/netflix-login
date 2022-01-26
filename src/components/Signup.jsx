@@ -1,17 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect , useRef} from 'react'
 import '../styles/SignUp.css'
 import axios from 'axios'
 import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
+import { Link } from 'react-scroll'
+import { useLocation } from "react-router-dom"
 
 
 
-const Signup = ({updateStatus, setUpdate}) => {
+const Signup = ({
+  updateStatus, 
+  setUpdate, 
+  selectedUser, 
+  changeIsClick,
+  setChangeIsClick,
+  setIsUpdated
+}) => {
 
-
-  console.log(updateStatus)
   const [formData, setFormData] = useState({
     _id: '',
     first_name: '',
@@ -23,6 +30,11 @@ const Signup = ({updateStatus, setUpdate}) => {
     avatar: ''
   })
 
+
+  const location = useLocation()
+
+
+
   const navigate = useNavigate()
 
   const [formErrors, setFormErrors] = useState({})
@@ -32,40 +44,84 @@ const Signup = ({updateStatus, setUpdate}) => {
   const [isLoading, setIsLoading] = useState(false)
   const [image, setImage] = useState('')
   const [confirmPass, setConfirmPass] = useState('')
-
+  const [value, setValue] = useState()
   
+  console.log(formData)
 
+  const reset = () => {
+    setValue('')
+  };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
     setFormErrors(validate(formData))
     setIsSubmit(true)
+  }
+
+  const createUser = async() => {
     if(Object.keys(formErrors).length === 0 && isSubmit){
       setIsLoading(true)
       try {
-        const path = 'http://localhost:8080/api/contacts/create'  
-        const result = await axios.post(path, formData)
-        if(result.data.status === 'success'){
-          setIsExists('')
-          setIsRegistered(true)
-          setIsLoading(false)
-          setFormData({
-            first_name: '',
-            middle_name: '',
-            last_name: '',
-            email: '',
-            password: '',
-            contact_number: '',
-            avatar: ''
-          })
-        } 
+        if (location.pathname === '/user') {
+          const path = `http://localhost:8080/api/contacts/${selectedUser._id}/update`
+          const result = await axios.put(path, formData)
+          if(result.data.status === 'success'){
+            setIsExists('')
+            setIsLoading(false)
+            setImage('')
+            setFormData({
+              first_name: '',
+              middle_name: '',
+              last_name: '',
+              email: '',
+              password: '',
+              contact_number: '',
+              avatar: ''
+            })
+            reset()
+            setIsSubmit(false)
+            setIsUpdated(true)
+            console.log('successfully updated')
+          }
+        } else {
+          const path = 'http://localhost:8080/api/contacts/create'  
+          const result = await axios.post(path, formData)
+          if(result.data.status === 'success'){
+            setIsExists('')
+            setIsRegistered(true)
+            setIsLoading(false)
+            setImage('')
+            setFormData({
+              first_name: '',
+              middle_name: '',
+              last_name: '',
+              email: '',
+              password: '',
+              contact_number: '',
+              avatar: ''
+            })
+            reset()
+          } 
+        }
       } catch(error){
         console.log(error)
         setIsExists(error.response.data.msg)
         setIsLoading(false)
+        setIsSubmit(false)
       }
     }
   }
+
+  useEffect(() => {
+    createUser()
+  },[isSubmit])
+
+  useEffect(() => {
+    if(updateStatus === true) {
+      setFormData(selectedUser)
+      return;
+    }
+  }, [updateStatus])
 
 
   const validate = (values) => {
@@ -128,7 +184,7 @@ const Signup = ({updateStatus, setUpdate}) => {
       data.append('image', e.target.files[0])
       const result = await axios.post(path, data)
       if(result.data.status === 'success'){
-        setFormData({ ...formData, avatar: result.data.result.path })
+        setFormData({ ...formData, avatar: result.data.result.path})
       }
     } catch(err){
       console.log(err)
@@ -148,7 +204,7 @@ const Signup = ({updateStatus, setUpdate}) => {
       <div className='w-100 d-flex justify-content-center align-items-center'>
         <div className='sign-in-container text-white'>
           {isLoading &&<LinearProgress className='mb-2'/>}
-          <i onClick={() => setUpdate(false)}className="fas fa-times fa-2x button-x"></i>
+          {updateStatus && <i onClick={() => setUpdate(false)}className="fas fa-times fa-2x button-x"></i>}
           <h1>{updateStatus ? 'Update Account' : 'Sign Up'}</h1>
           <form onSubmit={handleSubmit}>
             <div className='details-wrapper'>
@@ -178,9 +234,21 @@ const Signup = ({updateStatus, setUpdate}) => {
               </div>
               <div className='d-flex flex-column'>
                 <label className='mt-3 mb-1'>Profile Picture</label>
-                {image && <img className='profile-sign-up-image'src={image} alt="profile" />}
-                <input onChange={handleFileImage} type="file" name='file'/>
-                <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.avatar}</p>
+                {formData.avatar &&  changeIsClick === true && <img className='profile-sign-up-image'src={`http://localhost:8080${formData.avatar}`} alt="profile" />}
+                {image && changeIsClick === false && <img className='profile-sign-up-image'src={image} alt="profile" />}
+                {changeIsClick ? (
+                  <>
+                  <button onClick={() => setChangeIsClick(false)} className='w-25'>Change</button>
+                  </>
+                ) : 
+                (
+                  <>
+                    <input onChange={handleFileImage} value={value} type="file" name='file'/>
+                    <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.avatar}</p> 
+                    {location.pathname === '/user' && <button className='w-50' onClick={() => setChangeIsClick(true)}>Cancel Change</button>}
+                  </>
+                )        
+                }
               </div>
               <button type='submit' className='btn btn-danger w-100 mt-5'>
                 {isLoading ? <CircularProgress color="inherit" size='1em'/> : 'Submit'}

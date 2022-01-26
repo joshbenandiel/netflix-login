@@ -16,6 +16,10 @@
 
 }
 
+.profile-drop-down-menu a {
+  text-decoration: none;
+}
+
 .delete-account-popup {
   height: auto;
   background-color: #fff;
@@ -36,7 +40,7 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -170%);
+  transform: translate(-50%, -240%);
   z-index: 1100;
   display: flex;
   align-items: center;
@@ -113,9 +117,11 @@
 }
 
 .user-picture-profile {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
   background-color: #fff;
   border-radius: 12px;
-  height: 70px;
   box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
 -webkit-box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
 -moz-box-shadow: 1px 1px 21px 0px rgba(255,0,0,0.75);
