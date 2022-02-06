@@ -46,8 +46,6 @@ const Signup = ({
   const [confirmPass, setConfirmPass] = useState('')
   const [value, setValue] = useState()
   
-  console.log(formData)
-
   const reset = () => {
     setValue('')
   };
@@ -109,7 +107,9 @@ const Signup = ({
         setIsLoading(false)
         setIsSubmit(false)
       }
-    }
+    } else {
+      setIsSubmit(false)
+    } 
   }
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress';
 import Signup from './Signup'
-import { Link } from 'react-scroll'
+
 
 
 
@@ -27,6 +27,9 @@ const LoggedIn = ({
   const [isDeleted, setIsDeleted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [contacts, setContacts] = useState([])
+  const [page, setPage] = useState(1)
+  const [totalPage, setTotalPage] = useState(0)
+  const [pageNumber, setPageNumber] = useState([])
   
   const axios = require('axios').default;
 
@@ -49,10 +52,12 @@ const LoggedIn = ({
 
   const getContactsData = async() => {
     try {
-      const path = 'http://localhost:8080/api/contacts/list'
+      const path = `http://localhost:8080/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
+      const total = Math.round(result.data.total/6)
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
+        setTotalPage(total)
       }
     } catch(err){
       console.log(err)
@@ -61,9 +66,28 @@ const LoggedIn = ({
 
   useEffect(() => {
     getContactsData()
-  },[])
+  },[page]);
 
-  console.log(user.avatar)
+  const getPaginationBlock = () => {
+    const array = [];
+    for (let i = 1; i <= totalPage; i++) {
+      array.push(i)
+    };
+    return (
+      <div className='d-flex w-100 justify-content-center mt-2'>
+        {array.map((number,index) => {
+          return (
+            <div 
+            id={number}
+            key={index}
+            className='d-flex'>
+              <button onClick={() => setPage(number)} className={number == page ? 'next-button-active' : 'next-button'}></button>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
 
   
   return (
@@ -79,9 +103,8 @@ const LoggedIn = ({
             setUpdate(true)
             setChangeIsClick(true)
           }}><p>Update Account</p></button>
-          <button onClick={() => setDeleteIsCLick(true)}>
-            <p>Delete Account</p>
-          </button>
+          <button>
+            </button>
           <button className='btn btn-outline-info text-white m-2'>Logout</button>
         </div>
       </div>
@@ -113,6 +136,7 @@ const LoggedIn = ({
               </div>
             )
           })}
+          {getPaginationBlock()}
           </div>
           <div id="account" className={updateStatus ? 'update-user-active' : 'update-user'}>
             <Signup
