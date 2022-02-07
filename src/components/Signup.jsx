@@ -165,17 +165,10 @@ const Signup = ({
   
   const handleChange = (e) => {
       const {value, name} = e.target
-      if(name == 'first_name' || name == 'middle_name' || name == 'last_name'){
-        setFormData({
-          ...formData,
-          [name]: _.capitalize(value)
-        })
-      } else {
-        setFormData({
-          ...formData,
-          [name]: value
-        })
-      }
+      setFormData({
+        ...formData,
+        [name]: value
+      })
   }
 
   const handleConfirmPass = (e) => {
