@@ -30,6 +30,7 @@ const LoggedIn = ({
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
   const [pageNumber, setPageNumber] = useState([])
+
   
   const axios = require('axios').default;
 
@@ -54,10 +55,13 @@ const LoggedIn = ({
     try {
       const path = `http://localhost:8080/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
-      const total = Math.round(result.data.total/6)
+      let total = result.data.total/6
+      if(total - Math.floor(total) !== 0){
+        total += 1
+      }
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
-        setTotalPage(total)
+        setTotalPage(Math.floor(total))
       }
     } catch(err){
       console.log(err)
@@ -103,8 +107,9 @@ const LoggedIn = ({
             setUpdate(true)
             setChangeIsClick(true)
           }}><p>Update Account</p></button>
-          <button>
-            </button>
+          <button onClick={() => setDeleteIsCLick(true)}>
+           <p>Delete Account</p>
+          </button>
           <button className='btn btn-outline-info text-white m-2'>Logout</button>
         </div>
       </div>
@@ -126,7 +131,7 @@ const LoggedIn = ({
                     <img className='user-picture' src={`http://localhost:8080${user.avatar}`} alt='user-picture' />
                   </div>
                   <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
-                    <p className='m-0 fs-5'>{user.first_name} {user.middle_name} {user.last_name}</p>
+                    <p className='m-0 fs-5 text-center'>{user.first_name} {user.middle_name[0] + '.'} {user.last_name}</p>
                     <p className='m-0'>{user.email}</p>      
                   </div>
                   <div className='user-id'>

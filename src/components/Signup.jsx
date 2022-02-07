@@ -7,7 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import { Link } from 'react-scroll'
 import { useLocation } from "react-router-dom"
-
+import _ from 'lodash'
 
 
 const Signup = ({
@@ -21,7 +21,7 @@ const Signup = ({
 
   const [formData, setFormData] = useState({
     _id: '',
-    first_name: '',
+    first_name: _.capitalize(''),
     middle_name: '',
     last_name: '',
     email: '',
@@ -29,6 +29,7 @@ const Signup = ({
     contact_number: '',
     avatar: ''
   })
+
 
 
   const location = useLocation()
@@ -164,10 +165,17 @@ const Signup = ({
   
   const handleChange = (e) => {
       const {value, name} = e.target
-      setFormData({
-        ...formData,
-        [name]: value
-      })
+      if(name == 'first_name' || name == 'middle_name' || name == 'last_name'){
+        setFormData({
+          ...formData,
+          [name]: _.capitalize(value)
+        })
+      } else {
+        setFormData({
+          ...formData,
+          [name]: value
+        })
+      }
   }
 
   const handleConfirmPass = (e) => {
@@ -210,26 +218,74 @@ const Signup = ({
             <div className='details-wrapper'>
               <div className="form-group mt-3">
                 <label className='mb-1'>First Name</label>
-                <input onChange={handleChange} value={formData.first_name} name='first_name'type='text' className="form-control" placeholder='First Name'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.first_name} 
+                  name='first_name'type='text' 
+                  className="form-control" 
+                  placeholder='First Name'
+                
+                />
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.first_name}</p>
                 <label className='mb-1'>Middle Name</label>
-                <input onChange={handleChange} value={formData.middle_name} name='middle_name'type='text' className="form-control" placeholder='Middle Name'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.middle_name}
+                  name='middle_name'type='text' 
+                  className="form-control" 
+                  placeholder='Middle Name'
+               
+                />
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.middle_name}</p>
                 <label className='mb-1'>Last Name</label>
-                <input onChange={handleChange} value={formData.last_name} name='last_name'type='text' className="form-control" placeholder='Last Name'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.last_name} 
+                  name='last_name'
+                  type='text' 
+                  className="form-control" placeholder='Last Name'
+                
+                />
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.last_name}</p>
                 <label className='mb-1'>Email</label>
-                <input onChange={handleChange} value={formData.email} name='email'type='text' className="form-control" placeholder='Email'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.email} 
+                  name='email'
+                  type='text' 
+                  className="form-control"
+                  placeholder='Email'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.email}</p>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{isExists}</p>
                 <label className='mb-1'>Password</label>
-                <input onChange={handleChange} value={formData.password} name='password'type='password' className="form-control" placeholder='Password'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.password} 
+                  name='password'
+                  type='password' 
+                  className="form-control" 
+                  placeholder='Password'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
                 <label className='mb-1'>Confirm Password</label>
-                <input onChange={handleConfirmPass} value={confirmPass} type='password' className="form-control" placeholder='Confirm Password'/>
+                <input 
+                  onChange={handleConfirmPass} 
+                  value={confirmPass} 
+                  type='password' 
+                  className="form-control" 
+                  placeholder='Confirm Password'/>
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.password}</p>
                 <label className='mb-1'>Contact Number</label>
-                <input onChange={handleChange} value={formData.contact_number} name='contact_number'type='text' className="form-control" placeholder='Contact Number'/>
+                <input 
+                  onChange={handleChange} 
+                  value={formData.contact_number} 
+                  name='contact_number'type='text' 
+                  className="form-control" 
+                  placeholder='Contact Number'
+                  onKeyPress={(event) => {
+                    if (!/[0-9]/.test(event.key)) {
+                      event.preventDefault();
+                  }}}
+                />
                 <p className='m-1 mb-2' style={{color: 'red', fontSize: '13px'}}>{formErrors.contact_number}</p>
               </div>
               <div className='d-flex flex-column'>
