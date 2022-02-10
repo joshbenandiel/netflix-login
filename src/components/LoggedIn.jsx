@@ -9,10 +9,6 @@ import Signup from './Signup'
 
 
 
-
-  
-  
-
 const LoggedIn = ({
   user, 
   updateStatus, 
@@ -22,6 +18,7 @@ const LoggedIn = ({
   setIsUpdated,
   isUpdated
 }) => {
+
 
   const [deleteIsClick, setDeleteIsCLick] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
@@ -99,7 +96,7 @@ const LoggedIn = ({
       <NetflixLogo/>
       <div className='profile-container'>
         <div className='profile-wrapper'>
-          <img className='user-picture-profile' src={`http://localhost:8080${user.avatar}`}  alt='profile'/>
+          <img className='user-picture-profile' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`}  alt='profile'/>
           <div className="arrow-up"></div>
         </div>
         <div className='profile-drop-down-menu'>
@@ -128,7 +125,7 @@ const LoggedIn = ({
               className="user-card mt-2">
                 <div className="d-flex">
                   <div className="me-3">
-                    <img className='user-picture' src={`http://localhost:8080${user.avatar}`} alt='user-picture' />
+                    <img className='user-picture' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`} alt='user-picture' />
                   </div>
                   <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
                     <p className='m-0 fs-5 text-center'>{user.first_name} {user.middle_name[0] + '.'} {user.last_name}</p>
