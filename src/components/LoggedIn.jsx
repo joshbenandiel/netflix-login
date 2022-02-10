@@ -39,7 +39,7 @@ const LoggedIn = ({
   const deleteUser = async() => {
     setIsLoading(true)
     try {
-      const path = `http://localhost:8080/api/contacts/${user._id}/delete`
+      const path = `https://netflixapinodejs.herokuapp.com/api/contacts/${user._id}/delete`
       const result = await axios.delete(path)
       if(result) {
         setDeleteIsCLick(false)
@@ -53,7 +53,7 @@ const LoggedIn = ({
 
   const getContactsData = async() => {
     try {
-      const path = `http://localhost:8080/api/contacts/list?limit=6&page=${page}`
+      const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
       let total = result.data.total/6
       if(total - Math.floor(total) !== 0){

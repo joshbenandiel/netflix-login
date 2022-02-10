@@ -62,7 +62,7 @@ const Signup = ({
       setIsLoading(true)
       try {
         if (location.pathname === '/user') {
-          const path = `http://localhost:8080/api/contacts/${selectedUser._id}/update`
+          const path = `https://netflixapinodejs.herokuapp.com/api/contacts/${selectedUser._id}/update`
           const result = await axios.put(path, formData)
           if(result.data.status === 'success'){
             setIsExists('')
@@ -83,7 +83,7 @@ const Signup = ({
             console.log('successfully updated')
           }
         } else {
-          const path = 'http://localhost:8080/api/contacts/create'  
+          const path = 'https://netflixapinodejs.herokuapp.com/api/contacts/create'  
           const result = await axios.post(path, formData)
           if(result.data.status === 'success'){
             setIsExists('')
