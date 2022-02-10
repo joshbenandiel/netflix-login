@@ -180,7 +180,7 @@ const Signup = ({
     setImage(URL.createObjectURL(file))
 
     try {
-      const path = 'http://localhost:8080/api/file/upload'
+      const path = 'https://netflixapinodejs.herokuapp.com:8080/api/file/upload'
       const data = new FormData()
       data.append('image', e.target.files[0])
       const result = await axios.post(path, data)
