@@ -55,7 +55,7 @@ const Login = ({
     e.preventDefault()
     setIsLoading(true)
     try {
-      const path = 'https://netflixapinodejs.herokuapp.com:8080/api/auth/login'
+      const path = 'https://netflixapinodejs.herokuapp.com/api/auth/login'
       const result = await axios.post(path, formValues)
       if(result.data.result.status === 'success'){
         handleResult(result)

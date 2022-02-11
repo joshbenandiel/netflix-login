@@ -53,12 +53,14 @@ const LoggedIn = ({
       const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
       let total = result.data.total/6
+      console.log(total)
       if(total - Math.floor(total) !== 0){
         total += 1
       }
+      console.log(total)
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
-        setTotalPage(Math.floor(total))
+        setTotalPage(total)
       }
     } catch(err){
       console.log(err)
@@ -71,7 +73,7 @@ const LoggedIn = ({
 
   const getPaginationBlock = () => {
     const array = [];
-    for (let i = 1; i <= totalPage; i++) {
+    for (let i = 1; i <= Math.floor(totalPage); i++) {
       array.push(i)
     };
     return (

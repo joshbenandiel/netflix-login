@@ -2,7 +2,6 @@ import './App.css';
 import Login from './components/Login'
 import Signup from './components/Signup'
 import LoggedIn from './components/LoggedIn';
-import {Update} from './components/Update'
 import { useState } from 'react'
 import {
   BrowserRouter,

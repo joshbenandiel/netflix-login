@@ -180,7 +180,7 @@ const Signup = ({
     setImage(URL.createObjectURL(file))
 
     try {
-      const path = 'https://netflixapinodejs.herokuapp.com:8080/api/file/upload'
+      const path = 'https://netflixapinodejs.herokuapp.com/api/file/upload'
       const data = new FormData()
       data.append('image', e.target.files[0])
       const result = await axios.post(path, data)
@@ -283,7 +283,7 @@ const Signup = ({
               </div>
               <div className='d-flex flex-column'>
                 <label className='mt-3 mb-1'>Profile Picture</label>
-                {formData.avatar &&  changeIsClick === true && <img className='profile-sign-up-image'src={`http://localhost:8080${formData.avatar}`} alt="profile" />}
+                {formData.avatar &&  changeIsClick === true && <img className='profile-sign-up-image'src={`https://netflixapinodejs.herokuapp.com${formData.avatar}`} alt="profile" />}
                 {image && changeIsClick === false && <img className='profile-sign-up-image'src={image} alt="profile" />}
                 {changeIsClick ? (
                   <>
