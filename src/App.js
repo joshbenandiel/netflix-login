@@ -9,6 +9,7 @@ import {
   Route,
 
 } from "react-router-dom";
+import ProtectedRoute from "react-protected-route-component";
 
 function App(props) {
 
@@ -45,7 +46,8 @@ function App(props) {
             changeIsClick={changeIsClick}
             setUpdate={setUpdateIsClick}
             updateStatus={updateIsClick}
-            user={user}        
+            user={user}  
+            auth={true}      
           />}/>
         </Routes>
       </BrowserRouter>

@@ -28,7 +28,7 @@ const LoggedIn = ({
   const [totalPage, setTotalPage] = useState(0)
   const [pageNumber, setPageNumber] = useState([])
 
-  
+  console.log(totalPage)
   const axios = require('axios').default;
 
   const navigate = useNavigate()
@@ -52,6 +52,7 @@ const LoggedIn = ({
     try {
       const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
+      console.log(result)
       let total = result.data.total/6
       console.log(total)
       if(total - Math.floor(total) !== 0){
@@ -60,7 +61,7 @@ const LoggedIn = ({
       console.log(total)
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
-        setTotalPage(total)
+        setTotalPage(Math.floor(total))
       }
     } catch(err){
       console.log(err)
@@ -140,7 +141,7 @@ const LoggedIn = ({
               </div>
             )
           })}
-          {getPaginationBlock()}
+          {totalPage === 2 && getPaginationBlock()}
           </div>
           <div id="account" className={updateStatus ? 'update-user-active' : 'update-user'}>
             <Signup
