@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress';
 import Signup from './Signup'
 import { AuthContext } from './AuthContext'
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 
@@ -49,6 +50,7 @@ const LoggedIn = ({
   }
 
   const getContactsData = async() => {
+    setIsLoading(true)
     try {
       const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
@@ -59,6 +61,7 @@ const LoggedIn = ({
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
         setTotalPage(Math.floor(total))
+        setIsLoading(false)
       }
     } catch(err){
       console.log(err)
@@ -120,27 +123,36 @@ const LoggedIn = ({
       <div className='d-flex w-100 justify-content-center mt-5 position-relative account-container'>
         <div className={updateStatus ? 'logged-in-card-update-active': 'logged-in-card'}>
           <h3 className='text-white'>Registered Accounts</h3>
-          {contacts.map((user, index) => {
-            return (
-              <div
-              key={index} 
-              className="user-card mt-2">
-                <div className="d-flex">
-                  <div className="me-3">
-                    <img className='user-picture' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`} alt='user-picture' />
+          {isLoading ? 
+            <div className='loading-contacts-container'>
+              <CircularProgress color="secondary" size='4em'/>
+            </div>
+
+            :
+            <div>
+              {contacts.map((user, index) => {
+                return (
+                  <div
+                  key={index} 
+                  className="user-card mt-2">
+                    <div className="d-flex">
+                      <div className="me-3">
+                        <img className='user-picture' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`} alt='user-picture' />
+                      </div>
+                      <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
+                        <p className='m-0 fs-5 text-center'>{user.first_name} {user.middle_name[0] + '.'} {user.last_name}</p>
+                        <p className='m-0'>{user.email}</p>      
+                      </div>
+                      <div className='user-id'>
+                        <p className='fs-1'><span>#</span>{index + 1}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
-                    <p className='m-0 fs-5 text-center'>{user.first_name} {user.middle_name[0] + '.'} {user.last_name}</p>
-                    <p className='m-0'>{user.email}</p>      
-                  </div>
-                  <div className='user-id'>
-                    <p className='fs-1'><span>#</span>{index + 1}</p>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
-          {totalPage === 2 && getPaginationBlock()}
+                )
+              })}
+              {totalPage === 2 && getPaginationBlock()}
+            </div>
+          }
           </div>
           <div id="account" className={updateStatus ? 'update-user-active' : 'update-user'}>
             <Signup
