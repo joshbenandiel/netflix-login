@@ -1,33 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect , useContext } from 'react'
 import '../styles/Login.css'
 import  { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import NetflixLogo from './NetflixLogo'
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
+import { AuthContext } from './AuthContext';
 
 
 const Login = ({
   setUser, 
   setUpdateIsClick, 
   setChangeIsClick,
-  setIsUpdated
+  setIsUpdated,
 }) => {
 
 
   const axios = require('axios').default;
   const navigate = useNavigate()
-
   const [isLoading, setIsLoading] = useState(false)
-
-
   const [formValues, setFormValues] = useState({
     email: '',
     password: ''
   })
-
   const [errorMsg, setErrorMsg] = useState('')
-
+  const { setAuth } = useContext(AuthContext)
 
 
 
@@ -42,8 +39,9 @@ const Login = ({
   const handleResult = (result) => {
     setUser(result.data.result.user)
     setErrorMsg('')
-    navigate('/user')
     setIsLoading(false)
+    setAuth(true)
+    navigate('/user')
   }
 
 

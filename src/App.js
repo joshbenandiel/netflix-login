@@ -9,49 +9,51 @@ import {
   Route,
 
 } from "react-router-dom";
-import ProtectedRoute from "react-protected-route-component";
+import PrivateRoute from './components/PrivateRoute';
+import { AuthContext } from './components/AuthContext';
 
-function App(props) {
+function App() {
 
+  const [auth, setAuth] = useState(false)
   const [user, setUser] = useState({})
-
   const [updateIsClick, setUpdateIsClick] = useState(false)
-
   const [changeIsClick, setChangeIsClick] = useState(false)
-
   const [isUpdated, setIsUpdated] = useState(false)
 
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login
-            setIsUpdated={setIsUpdated}
-            setChangeIsClick={setChangeIsClick}
-            setUpdateIsClick={setUpdateIsClick}
-            setUser={setUser}
-          />}/>
-          <Route path='/signup' element={<Signup
-            setIsUpdated={setIsUpdated}
-            setChangeIsClick={setChangeIsClick}
-            changeIsClick={changeIsClick}
-            setUpdate={setUpdateIsClick}
-            updateStatus={updateIsClick}
+      <AuthContext.Provider value={{auth, setAuth}}>
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Login
+              setIsUpdated={setIsUpdated}
+              setChangeIsClick={setChangeIsClick}
+              setUpdateIsClick={setUpdateIsClick}
+              setUser={setUser}
+
             />}/>
-          <Route path='/user' element={<LoggedIn
-            setIsUpdated={setIsUpdated}
-            isUpdated={isUpdated}
-            setChangeIsClick={setChangeIsClick}
-            changeIsClick={changeIsClick}
-            setUpdate={setUpdateIsClick}
-            updateStatus={updateIsClick}
-            user={user}  
-            auth={true}      
-          />}/>
-        </Routes>
-      </BrowserRouter>
-     
+            <Route path='/signup' element={<Signup
+              setIsUpdated={setIsUpdated}
+              setChangeIsClick={setChangeIsClick}
+              changeIsClick={changeIsClick}
+              setUpdate={setUpdateIsClick}
+              updateStatus={updateIsClick}
+              />}/>
+            <Route element={<PrivateRoute auth={auth}/>}>
+              <Route path='/user' element={<LoggedIn
+                setIsUpdated={setIsUpdated}
+                isUpdated={isUpdated}
+                setChangeIsClick={setChangeIsClick}
+                changeIsClick={changeIsClick}
+                setUpdate={setUpdateIsClick}
+                updateStatus={updateIsClick}
+                user={user}     
+              />}/>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </AuthContext.Provider>
     </div>
   );
 }

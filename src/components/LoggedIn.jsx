@@ -1,10 +1,12 @@
-import React , { useState, useEffect, useRef }from 'react'
+import React , { useState, useEffect, useContext }from 'react'
 import '../styles/LoggedIn.css'
 import kidsImage from '../images/kids.png'
 import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import LinearProgress from '@mui/material/LinearProgress';
 import Signup from './Signup'
+import { AuthContext } from './AuthContext'
+
 
 
 
@@ -16,7 +18,7 @@ const LoggedIn = ({
   setChangeIsClick, 
   changeIsClick,
   setIsUpdated,
-  isUpdated
+  isUpdated,
 }) => {
 
 
@@ -26,9 +28,7 @@ const LoggedIn = ({
   const [contacts, setContacts] = useState([])
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
-  const [pageNumber, setPageNumber] = useState([])
-
-  console.log(totalPage)
+  const {auth, setAuth} = useContext(AuthContext)
   const axios = require('axios').default;
 
   const navigate = useNavigate()
@@ -52,13 +52,10 @@ const LoggedIn = ({
     try {
       const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
       const result = await axios.get(path)
-      console.log(result)
       let total = result.data.total/6
-      console.log(total)
       if(total - Math.floor(total) !== 0){
         total += 1
       }
-      console.log(total)
       if(result.data.status === 'succcess'){
         setContacts(result.data.contacts)
         setTotalPage(Math.floor(total))
@@ -110,7 +107,9 @@ const LoggedIn = ({
           <button onClick={() => setDeleteIsCLick(true)}>
            <p>Delete Account</p>
           </button>
-          <button className='btn btn-outline-info text-white m-2'>Logout</button>
+          <button
+            onClick={() => setAuth(false)} 
+            className='btn btn-outline-info text-white m-2'>Logout</button>
         </div>
       </div>
       <div className="image-header">
