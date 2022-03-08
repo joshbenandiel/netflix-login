@@ -7,6 +7,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Signup from './Signup'
 import { AuthContext } from './AuthContext'
 import CircularProgress from '@mui/material/CircularProgress';
+import Cookies from 'js-cookie'
 
 
 
@@ -43,6 +44,7 @@ const LoggedIn = ({
         setDeleteIsCLick(false)
         setIsDeleted(true)
         setIsLoading(false)
+        setAuth(false)
       }
     } catch(err) {
       console.log(err)
@@ -71,6 +73,14 @@ const LoggedIn = ({
   useEffect(() => {
     getContactsData()
   },[page]);
+
+
+  useEffect(() => {
+    const user = Cookies.get('user')
+    if(user){
+      setAuth(true)
+    }
+  },[])
 
   const getPaginationBlock = () => {
     const array = [];
@@ -111,7 +121,11 @@ const LoggedIn = ({
            <p>Delete Account</p>
           </button>
           <button
-            onClick={() => setAuth(false)} 
+            onClick={() => {
+                setAuth(false)
+                navigate('/') 
+              }
+            } 
             className='btn btn-outline-info text-white m-2'>Logout</button>
         </div>
       </div>
@@ -202,7 +216,10 @@ const LoggedIn = ({
             <div className='signup-card-container'/>
             <div className='signup-card'>
               <h1 className='pb-3 text-center'>Successfully Updated!</h1>
-              <button onClick={() => {navigate('/')}}className='btn btn-success'>Login Again</button>
+              <button onClick={() => {
+                navigate('/')
+                setAuth(false)
+              }}className='btn btn-success'>Login Again</button>
             </div>
           </div>
         }

@@ -5,7 +5,6 @@ import NetflixLogo from './NetflixLogo'
 import { useNavigate } from 'react-router-dom'
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
-import { Link } from 'react-scroll'
 import { useLocation } from "react-router-dom"
 import _ from 'lodash'
 

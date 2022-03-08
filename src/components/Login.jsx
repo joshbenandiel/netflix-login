@@ -6,10 +6,12 @@ import NetflixLogo from './NetflixLogo'
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import { AuthContext } from './AuthContext';
+import Cookies from 'js-cookie'
 
 
 const Login = ({
   setUser, 
+  user,
   setUpdateIsClick, 
   setChangeIsClick,
   setIsUpdated,
@@ -40,8 +42,10 @@ const Login = ({
     setUser(result.data.result.user)
     setErrorMsg('')
     setIsLoading(false)
+    Cookies.set('user', 'loginTrue')
     setAuth(true)
     navigate('/user')
+    
   }
 
 
@@ -55,6 +59,7 @@ const Login = ({
     try {
       const path = 'https://netflixapinodejs.herokuapp.com/api/auth/login'
       const result = await axios.post(path, formValues)
+      console.log(result)
       if(result.data.result.status === 'success'){
         handleResult(result)
       } else {

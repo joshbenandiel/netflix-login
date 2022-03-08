@@ -1,8 +1,17 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
+import Cookies from 'js-cookie'
 
-const PrivateRoute = ({auth}) => {
-  return auth ? <Outlet/> : <Navigate to="/" />
+export const PrivateRouteUser = ({auth, children}) => {
+  const user = Cookies.get('user')
+
+  return auth || user ? children : <Navigate to='/'/>
 }
 
-export default PrivateRoute
+export const PrivateRouteLogin = ({auth, children}) => {
+  return auth ? <Navigate to='/user'/> : children
+}
+
+export const PrivateRouteSignup= ({auth, children}) => {
+  return auth ? <Navigate to='/user'/> : children
+}
