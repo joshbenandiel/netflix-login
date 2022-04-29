@@ -110,7 +110,7 @@ const Signup = ({
     } else {
       setIsSubmit(false)
     } 
-  },[isSubmit, formData, formErrors, location.pathname, selectedUser._id, setIsUpdated])
+  },[isSubmit, formData, formErrors, location.pathname, selectedUser, setIsUpdated])
 
   useEffect(() => {
     createUser()
