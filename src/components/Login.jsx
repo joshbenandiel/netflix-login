@@ -49,8 +49,11 @@ const Login = ({
 
 
   useEffect(() => {
-    return () => {};
-  }, []);
+    setAuth(false)
+  }, [setAuth]);
+
+
+ 
 
   const handleSubmit = async(e) => {
     e.preventDefault()
