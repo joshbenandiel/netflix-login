@@ -11,7 +11,6 @@ import Cookies from 'js-cookie'
 
 const Login = ({
   setUser, 
-  user,
   setUpdateIsClick, 
   setChangeIsClick,
   setIsUpdated,
@@ -59,7 +58,6 @@ const Login = ({
     try {
       const path = 'https://netflixapinodejs.herokuapp.com/api/auth/login'
       const result = await axios.post(path, formValues)
-      console.log(result)
       if(result.data.result.status === 'success'){
         handleResult(result)
       } else {

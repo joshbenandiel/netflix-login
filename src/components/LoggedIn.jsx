@@ -1,4 +1,4 @@
-import React , { useState, useEffect, useContext }from 'react'
+import React , { useState, useEffect , useCallback, useContext}from 'react'
 import '../styles/LoggedIn.css'
 import kidsImage from '../images/kids.png'
 import NetflixLogo from './NetflixLogo'
@@ -13,27 +13,31 @@ import Cookies from 'js-cookie'
 
 
 
-const LoggedIn = ({
-  user, 
-  updateStatus, 
-  setUpdate, 
-  setChangeIsClick, 
-  changeIsClick,
-  setIsUpdated,
-  isUpdated,
-}) => {
+  const LoggedIn = ({
+    user, 
+    updateStatus, 
+    setUpdate, 
+    setChangeIsClick, 
+    changeIsClick,
+    setIsUpdated,
+    isUpdated,
+  }) => {
+
 
 
   const [deleteIsClick, setDeleteIsCLick] = useState(false)
   const [isDeleted, setIsDeleted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const {setAuth} = useContext(AuthContext)
   const [contacts, setContacts] = useState([])
   const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(0)
-  const {auth, setAuth} = useContext(AuthContext)
   const axios = require('axios').default;
 
+
   const navigate = useNavigate()
+
+
 
   const deleteUser = async() => {
     setIsLoading(true)
@@ -51,7 +55,7 @@ const LoggedIn = ({
     }
   }
 
-  const getContactsData = async() => {
+  const getContactsData = useCallback(async() => {
     setIsLoading(true)
     try {
       const path = `https://netflixapinodejs.herokuapp.com/api/contacts/list?limit=6&page=${page}`
@@ -68,11 +72,11 @@ const LoggedIn = ({
     } catch(err){
       console.log(err)
     }
-  }
+  },[page, axios])
 
   useEffect(() => {
     getContactsData()
-  },[page]);
+  },[getContactsData]);
 
 
   useEffect(() => {
@@ -80,7 +84,8 @@ const LoggedIn = ({
     if(user){
       setAuth(true)
     }
-  },[])
+  },[setAuth])
+
 
   const getPaginationBlock = () => {
     const array = [];
@@ -95,7 +100,7 @@ const LoggedIn = ({
             id={number}
             key={index}
             className='d-flex'>
-              <button onClick={() => setPage(number)} className={number == page ? 'next-button-active' : 'next-button'}></button>
+              <button onClick={() => setPage(number)} className={number === page ? 'next-button-active' : 'next-button'}></button>
             </div>
           )
         })}
@@ -130,7 +135,7 @@ const LoggedIn = ({
         </div>
       </div>
       <div className="image-header">
-        <img className='pe-5' src={kidsImage} alt='kids-picture' />
+        <img className='pe-5' src={kidsImage} alt='kids-profile' />
         <h1 className='text-white ps-5'>Hi, {user.first_name} {user.last_name}!</h1>
       </div>
       <div className='d-flex'>
@@ -151,7 +156,7 @@ const LoggedIn = ({
                   className="user-card mt-2">
                     <div className="d-flex">
                       <div className="me-3">
-                        <img className='user-picture' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`} alt='user-picture' />
+                        <img className='user-picture' src={`https://netflixapinodejs.herokuapp.com${user.avatar}`} alt='user-profile' />
                       </div>
                       <div className="d-flex align-items-center justify-content-center flex-column user-name-login">
                         <p className='m-0 fs-5 text-center'>{user.first_name} {user.middle_name[0] + '.'} {user.last_name}</p>
@@ -217,8 +222,9 @@ const LoggedIn = ({
             <div className='signup-card'>
               <h1 className='pb-3 text-center'>Successfully Updated!</h1>
               <button onClick={() => {
-                navigate('/')
                 setAuth(false)
+                navigate('/')
+                
               }}className='btn btn-success'>Login Again</button>
             </div>
           </div>

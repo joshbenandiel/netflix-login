@@ -2,7 +2,7 @@ import './App.css';
 import Login from './components/Login'
 import Signup from './components/Signup'
 import LoggedIn from './components/LoggedIn';
-import { useState , useEffect} from 'react'
+import { useState } from 'react'
 import {
   BrowserRouter,
   Routes,
@@ -13,7 +13,6 @@ import { PrivateRouteUser } from './components/PrivateRoute';
 import { PrivateRouteLogin } from './components/PrivateRoute';
 import { PrivateRouteSignup } from './components/PrivateRoute';
 import { AuthContext } from './components/AuthContext';
-import Cookies from 'js-cookie'
 import useLocalStorage from './hooks/useLocalStorage.jsx'
 
 function App() {
@@ -23,16 +22,6 @@ function App() {
   const [updateIsClick, setUpdateIsClick] = useState(false)
   const [changeIsClick, setChangeIsClick] = useState(false)
   const [isUpdated, setIsUpdated] = useState(false)
-
-
-  useEffect(() => {
-    const readCookie = () => {
-      Cookies.get('user')
-    }
-
-    readCookie()
-  },[])
-
 
   return (
     <div className="App">

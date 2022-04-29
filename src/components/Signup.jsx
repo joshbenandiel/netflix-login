@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useRef} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import '../styles/SignUp.css'
 import axios from 'axios'
 import NetflixLogo from './NetflixLogo'
@@ -56,7 +56,7 @@ const Signup = ({
     setIsSubmit(true)
   }
 
-  const createUser = async() => {
+  const createUser =  useCallback(async() => {
     if(Object.keys(formErrors).length === 0 && isSubmit){
       setIsLoading(true)
       try {
@@ -110,23 +110,23 @@ const Signup = ({
     } else {
       setIsSubmit(false)
     } 
-  }
+  },[isSubmit, formData, formErrors, location.pathname, selectedUser._id, setIsUpdated])
 
   useEffect(() => {
     createUser()
-  },[isSubmit])
+  },[createUser])
 
   useEffect(() => {
     if(updateStatus === true) {
       setFormData(selectedUser)
       return;
     }
-  }, [updateStatus])
+  }, [updateStatus, selectedUser])
 
 
   const validate = (values) => {
     const errors = {}
-    const mailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const mailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if(!values.first_name){
       errors.first_name = '*First Name is Required'
     } 
