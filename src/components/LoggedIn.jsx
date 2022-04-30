@@ -107,7 +107,13 @@ import Cookies from 'js-cookie'
       </div>
     )
   }
+  
 
+  const deleteId = async(id) => {
+    await axios.delete(`https://netflixapinodejs.herokuapp.com/api/contacts/${id}/delete`)
+  }
+
+  deleteId('626cc4ca97250fdc24b95c3c')
   
   return (
     <div className='main-container'>
