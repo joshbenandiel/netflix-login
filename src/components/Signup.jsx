@@ -67,15 +67,6 @@ const Signup = ({
             setIsExists('')
             setIsLoading(false)
             setImage('')
-            setFormData({
-              first_name: '',
-              middle_name: '',
-              last_name: '',
-              email: '',
-              password: '',
-              contact_number: '',
-              avatar: ''
-            })
             reset()
             setIsSubmit(false)
             setIsUpdated(true)
@@ -89,15 +80,6 @@ const Signup = ({
             setIsRegistered(true)
             setIsLoading(false)
             setImage('')
-            setFormData({
-              first_name: '',
-              middle_name: '',
-              last_name: '',
-              email: '',
-              password: '',
-              contact_number: '',
-              avatar: ''
-            })
             reset()
           } 
         }

@@ -53,7 +53,11 @@ const Login = ({
   }, [setAuth]);
 
 
+  // const deleteId = async(id) => {
+  //   await axios.delete(`https://netflixapinodejs.herokuapp.com/api/contacts/${id}/delete`)
+  // }
 
+  // deleteId('627b94fb1da5a0843aaf7a88')
 
 
 
